@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
 const TARGET = process.env.NODE_ENV || 'development'
-console.log(TARGET)
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
@@ -35,10 +34,15 @@ const common = {
         include: PATHS.app
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.EnvironmentPlugin([
+      "NODE_ENV"
+    ])
+  ]
 };
 
-if(TARGET === 'development') {
+if (TARGET === 'development') {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
@@ -66,6 +70,6 @@ if(TARGET === 'development') {
   });
 }
 
-if(TARGET === 'production') {
+if (TARGET === 'production') {
   module.exports = merge(common, {});
 }
